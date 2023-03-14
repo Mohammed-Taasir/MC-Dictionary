@@ -46,6 +46,8 @@ public class MeaningsActivity extends AppCompatActivity {
         audioButton = findViewById(R.id.audio_button);
         recyclerView = findViewById(R.id.meanings_recyclerview);
 
+//        audioButton.setBackgroundResource(R.drawable.custom_background);
+
         // Set the word in the heading
         String word = getIntent().getStringExtra("word");
         wordTextView.setText(word);

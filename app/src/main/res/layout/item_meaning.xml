@@ -10,11 +10,20 @@
         android:id="@+id/part_of_speech_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="6dp"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/definition_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="6dp"
         android:text="TextView" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="6dp"
+        android:background="@color/white" />
 </LinearLayout>
