@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("audioURL", audioURL);
                 startActivity(intent);
             }
+            audioURL = "";
         }
     }
 
@@ -110,23 +111,16 @@ public class MainActivity extends AppCompatActivity {
 
         String jsonResponse = responseBuilder.toString();
 
-//        String audioUrl = jsonResponse.getJSONArray(0)
-//                .getJSONArray("phonetics")
-//                .getJSONObject(0)
-//                .getString("audio");
-
+//        JSONArray jsonArray = new JSONArray(jsonResponse);
 
         JSONArray jsonArray = new JSONArray(jsonResponse);
+        JSONObject jsonObject = jsonArray.getJSONObject(0);
+        JSONArray meaningsArray = jsonObject.getJSONArray("meanings");
+        ArrayList<Meaning> meaningList = new ArrayList<>();
 
         if (jsonArray.length() == 0) {
             throw new JSONException("API response is empty");
         }
-
-//        String audioURL = jsonArray.getJSONArray("phonetics").getJSONObject(0).getString("audio");
-
-        JSONObject jsonObject = jsonArray.getJSONObject(0);
-
-        JSONArray meaningsArray = jsonObject.getJSONArray("meanings");
 
         JSONArray audioArray = jsonObject.getJSONArray("phonetics");
 
@@ -139,20 +133,93 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-        ArrayList<Meaning> meaningsList = new ArrayList<>();
+//        for (int i = 0; i < meaningsArray.length(); i++) {
+//            JSONObject meaningObject = meaningsArray.getJSONObject(i);
+//            String partOfSpeech = meaningObject.getString("partOfSpeech");
+//            JSONArray definitionsArray = meaningObject.getJSONArray("definitions");
+//            String definition = definitionsArray.getJSONObject(0).getString("definition");
+//
+//            Meaning meaning = new Meaning(partOfSpeech, definition);
+//            meaningsList.add(meaning);
+//        }
+        // Fetch part of speech
+//        String partOfSpeech;
+        // Fetch definitions, examples, antonyms, synonyms
+//        List<String> definitionsList = new ArrayList<>();
+//        List<String> examplesList = new ArrayList<>();
+//        List<String> antonymsList = new ArrayList<>();
+//        List<String> synonymsList = new ArrayList<>();
 
         for (int i = 0; i < meaningsArray.length(); i++) {
             JSONObject meaningObject = meaningsArray.getJSONObject(i);
             String partOfSpeech = meaningObject.getString("partOfSpeech");
             JSONArray definitionsArray = meaningObject.getJSONArray("definitions");
-            String definition = definitionsArray.getJSONObject(0).getString("definition");
 
-            Meaning meaning = new Meaning(partOfSpeech, definition);
-            meaningsList.add(meaning);
+            List<String> definitionsList = new ArrayList<>();
+            List<String> examplesList = new ArrayList<>();
+            List<String> antonymsList = new ArrayList<>();
+            List<String> synonymsList = new ArrayList<>();
+
+            for (int j = 0; j < definitionsArray.length(); j++) {
+                JSONObject definitionObject = definitionsArray.getJSONObject(j);
+                String definition = definitionObject.getString("definition");
+                definitionsList.add(definition);
+
+                if (definitionObject.has("example")) {
+                    String example = definitionObject.getString("example");
+                    examplesList.add(example);
+                }
+
+                if (definitionObject.has("antonyms")) {
+                    JSONArray antonymsArray = definitionObject.getJSONArray("antonyms");
+                    String antonyms = antonymsArray.join(", ");
+                    antonymsList.add(antonyms);
+                }
+
+                if (definitionObject.has("synonyms")) {
+                    JSONArray synonymsArray = definitionObject.getJSONArray("synonyms");
+                    String synonyms = synonymsArray.join(", ");
+                    synonymsList.add(synonyms);
+                }
+            }
+
+//            List<String> definitions = new ArrayList<>();
+
+//            JSONArray definitionsArray = meaningObject.getJSONArray("definitions");
+//            for (int j = 0; j < definitionsArray.length(); j++) {
+//                JSONObject definitionObject = definitionsArray.getJSONObject(j);
+//                String definition = definitionObject.getString("definition");
+//                definitions.add(definition);
+//            }
+//
+            JSONArray synonymsArray = meaningObject.optJSONArray("synonyms");
+//            List<String> synonymsList = new ArrayList<>();
+            if (synonymsArray != null) {
+                for (int j = 0; j < synonymsArray.length(); j++) {
+                    synonymsList.add(synonymsArray.getString(j));
+                }
+            }
+            JSONArray antonymsArray = meaningObject.optJSONArray("antonyms");
+//            List<String> antonymsList = new ArrayList<>();
+            if (antonymsArray != null) {
+                for (int j = 0; j < antonymsArray.length(); j++) {
+                    antonymsList.add(antonymsArray.getString(j));
+                }
+            }
+
+//            JSONArray examplesArray = meaningObject.optJSONArray("examples");
+//            List<String> examplesList = new ArrayList<>();
+//            if (examplesArray != null) {
+//                for (int j = 0; j < examplesArray.length(); j++) {
+//                    examplesList.add(examplesArray.getString(j));
+//                }
+//            }
+
+            Meaning meaning = new Meaning(partOfSpeech, definitionsList, synonymsList, antonymsList, examplesList);
+            meaningList.add(meaning);
         }
 
-        return meaningsList;
+        return meaningList;
     }
 
 }

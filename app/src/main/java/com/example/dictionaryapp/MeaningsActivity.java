@@ -102,12 +102,20 @@ public class MeaningsActivity extends AppCompatActivity {
             public void onItemClick(Meaning meaning) {
                 // Navigate to the detail fragment for the selected meaning
                 // TODO: Implement navigation to detail fragment
+                DefinitionFragment definitionFragment = new DefinitionFragment();
+                Bundle arguments = new Bundle();
+                arguments.putParcelable("selectedMeaning", meaning);
+                definitionFragment.setArguments(arguments);
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.meanings_container, definitionFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.meanings_container, fragment);
         transaction.commit();
-
 
     } // -----------------> END OF onCreate().
 

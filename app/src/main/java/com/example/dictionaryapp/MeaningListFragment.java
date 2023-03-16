@@ -102,8 +102,15 @@ public class MeaningListFragment extends ListFragment {
             partOfSpeechTextView.setText(meaning.getPartOfSpeech());
 
             // Set the definition
+//            TextView definitionTextView = convertView.findViewById(R.id.definition_text_view);
+//            definitionTextView.setText((CharSequence) meaning.getDefinitions());
             TextView definitionTextView = convertView.findViewById(R.id.definition_text_view);
-            definitionTextView.setText(meaning.getDefinition());
+            List<String> definitions = meaning.getDefinitions();
+            String definitionString = "";
+            for (String definition : definitions) {
+                definitionString += definition + "\n";
+            }
+            definitionTextView.setText(definitionString);
 
             // Set the click listener
             convertView.setOnClickListener(new View.OnClickListener() {
