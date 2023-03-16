@@ -23,6 +23,8 @@ public class DefinitionFragment extends Fragment {
     private TextView partOfSpeechTextView;
     private TextView antonymTextView;
     private TextView synonymTextView;
+    private TextView synText;
+    private TextView antText;
 
     public DefinitionFragment() {
         // Required empty public constructor
@@ -41,22 +43,21 @@ public class DefinitionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_definition, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Retrieve the views
         definitionTextView = view.findViewById(R.id.definition_textview);
-        exampleTextView = view.findViewById(R.id.example_textview);
+//        exampleTextView = view.findViewById(R.id.example_textview);
         partOfSpeechTextView = view.findViewById(R.id.part_of_speech_textview);
         antonymTextView = view.findViewById(R.id.antonyms_textview);
         synonymTextView = view.findViewById(R.id.synonyms_textview);
-    }
+        synText = view.findViewById(R.id.syn);
+        antText = view.findViewById(R.id.ant);
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+
 
         // Retrieve the Meaning object
         assert getArguments() != null;
@@ -64,19 +65,39 @@ public class DefinitionFragment extends Fragment {
 
         // Display the definition, example, part of speech, antonym, and synonym (if present)
         List<String> definitions = meaning.getDefinitions();
+        List<String> examples = meaning.getExamples();
+        int defctr = 1;
         StringBuilder definitionString = new StringBuilder();
-        for (String definition : definitions) {
-            definitionString.append(definition).append("\n");
+//        for (String definition : definitions) {
+//            definitionString.append(defctr+".  ");
+//            definitionString.append(definition).append("\n\n");
+//            defctr++;
+//        }
+        for(int i=0; i<definitions.size(); i++){
+            String definition = definitions.get(i);
+            String example = examples.get(i);
+
+            definitionString.append("\n");
+            definitionString.append(defctr+". ");
+            definitionString.append(definition).append("\n\n");
+            definitionString.append("  -> "+example).append("\n\n");
+            definitionString.append("-------------------------------------------------------------------------------------\n");
+            defctr++;
         }
         definitionTextView.setText(definitionString.toString());
 //        definitionTextView.setText((CharSequence) meaning.getDefinitions());
-        List<String> examples = meaning.getExamples();
-        StringBuilder exampleString = new StringBuilder();
-        for (String example : examples) {
-            exampleString.append(example).append("\n");
-        }
-        exampleTextView.setText(exampleString.toString());
-        Log.i("examp", String.valueOf(exampleString));
+
+
+//        List<String> examples = meaning.getExamples();
+//        int exctr = 1;
+//        StringBuilder exampleString = new StringBuilder();
+//        for (String example : examples) {
+//            exampleString.append(exctr+".  ");
+//            exampleString.append(example).append("\n\n");
+//            exctr++;
+//        }
+//        exampleTextView.setText(exampleString.toString());
+//        Log.i("examp", String.valueOf(exampleString));
 
 
         partOfSpeechTextView.setText(meaning.getPartOfSpeech());
@@ -84,27 +105,85 @@ public class DefinitionFragment extends Fragment {
 
         List<String> antonyms = meaning.getAntonyms();
         StringBuilder antonymString = new StringBuilder();
-        if(antonyms.isEmpty()){
-            antonymTextView.setText("No antonym found");
+        if(antonyms == null || antonyms.isEmpty()){
+            antonymTextView.setText("no antonyms found");
+            antText.setText("");
         }else{
             for (String antonym : antonyms) {
-                antonymString.append(antonym).append("\n");
+                antonymString.append(antonym).append("      ");
             }
+            antonymTextView.setText(antonymString.toString().trim());
         }
-        antonymTextView.setText(antonymString.toString());
+
 
 
 //        antonymTextView.setText(meaning.getAntonyms().isEmpty() ? "" : meaning.getAntonyms().get(0));
         List<String> synonyms = meaning.getSynonyms();
         StringBuilder synonymString = new StringBuilder();
-        if(synonyms.isEmpty()){
-            synonymTextView.setText("No synonyms found");
+        if(synonyms == null || synonyms.isEmpty()){
+            synonymTextView.setText("no synonyms found");
+            synText.setText("");
         }else{
             for (String synonym : synonyms) {
-                synonymString.append(synonym).append("\n");
+                synonymString.append(synonym).append("      ");
             }
+            synonymTextView.setText(synonymString.toString().trim());
         }
-        synonymTextView.setText(synonymString.toString());
-//        synonymTextView.setText(meaning.getSynonyms().isEmpty() ? "" : meaning.getSynonyms().get(0));
     }
+
+
+//    @SuppressLint("SetTextI18n")
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+//        // Retrieve the Meaning object
+//        assert getArguments() != null;
+//        Meaning meaning = getArguments().getParcelable("selectedMeaning");
+//
+//        // Display the definition, example, part of speech, antonym, and synonym (if present)
+//        List<String> definitions = meaning.getDefinitions();
+//        StringBuilder definitionString = new StringBuilder();
+//        for (String definition : definitions) {
+//            definitionString.append(definition).append("\n");
+//        }
+//        definitionTextView.setText(definitionString.toString());
+////        definitionTextView.setText((CharSequence) meaning.getDefinitions());
+//        List<String> examples = meaning.getExamples();
+//        StringBuilder exampleString = new StringBuilder();
+//        for (String example : examples) {
+//            exampleString.append(example).append("\n");
+//        }
+//        exampleTextView.setText(exampleString.toString());
+//        Log.i("examp", String.valueOf(exampleString));
+//
+//
+//        partOfSpeechTextView.setText(meaning.getPartOfSpeech());
+//
+//
+//        List<String> antonyms = meaning.getAntonyms();
+//        StringBuilder antonymString = new StringBuilder();
+//        if(antonyms.isEmpty()){
+//            antonymTextView.setText("No antonym found");
+//        }else{
+//            for (String antonym : antonyms) {
+//                antonymString.append(antonym).append("\n");
+//            }
+//        }
+//        antonymTextView.setText(antonymString.toString());
+//
+//
+////        antonymTextView.setText(meaning.getAntonyms().isEmpty() ? "" : meaning.getAntonyms().get(0));
+//        List<String> synonyms = meaning.getSynonyms();
+//        StringBuilder synonymString = new StringBuilder();
+//        if(synonyms.isEmpty()){
+//            synonymTextView.setText("No synonyms found");
+//        }else{
+//            for (String synonym : synonyms) {
+//                synonymString.append(synonym).append("\n");
+//            }
+//        }
+//        synonymTextView.setText(synonymString.toString());
+////        synonymTextView.setText(meaning.getSynonyms().isEmpty() ? "" : meaning.getSynonyms().get(0));
+//    }
 }

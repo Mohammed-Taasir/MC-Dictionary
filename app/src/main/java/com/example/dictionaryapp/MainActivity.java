@@ -167,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (definitionObject.has("example")) {
                     String example = definitionObject.getString("example");
-                    examplesList.add(example);
+                    examplesList.add("eg. "+example);
+                }else{
+                    examplesList.add("no example found");
                 }
 
                 if (definitionObject.has("antonyms")) {
@@ -198,13 +200,18 @@ public class MainActivity extends AppCompatActivity {
                 for (int j = 0; j < synonymsArray.length(); j++) {
                     synonymsList.add(synonymsArray.getString(j));
                 }
+            }else{
+                synonymsList = null;
             }
+
             JSONArray antonymsArray = meaningObject.optJSONArray("antonyms");
 //            List<String> antonymsList = new ArrayList<>();
             if (antonymsArray != null) {
                 for (int j = 0; j < antonymsArray.length(); j++) {
                     antonymsList.add(antonymsArray.getString(j));
                 }
+            }else{
+                antonymsList = null;
             }
 
 //            JSONArray examplesArray = meaningObject.optJSONArray("examples");
