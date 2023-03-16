@@ -37,10 +37,9 @@
 
     <!-- Audio button -->
 
-    <!-- RecyclerView for meanings -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/meanings_recyclerview"
+    <FrameLayout
+        android:id="@+id/meanings_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

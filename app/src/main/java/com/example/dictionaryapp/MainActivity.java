@@ -57,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class FetchMeaningsTask extends AsyncTask<String, Void, List<Meaning>> {
+    private class FetchMeaningsTask extends AsyncTask<String, Void, ArrayList<Meaning>> {
 
         @Override
-        protected List<Meaning> doInBackground(String... params) {
+        protected ArrayList<Meaning> doInBackground(String... params) {
             String word = params[0];
             try {
                 return fetchMeanings(word);
@@ -73,13 +73,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Meaning> meaningsList) {
+        protected void onPostExecute(ArrayList<Meaning> meaningsList) {
             if (meaningsList == null || meaningsList.isEmpty()) {
                 Toast.makeText(MainActivity.this, "Word not found in the dictionary", Toast.LENGTH_SHORT).show();
             } else {
                 // Start the meanings activity and pass the meanings list as an extra
                 Intent intent = new Intent(MainActivity.this, MeaningsActivity.class);
-                intent.putExtra("meaningsList", (Serializable) meaningsList);
+//                intent.putExtra("meaningsList", meaningsList);
+                intent.putParcelableArrayListExtra("meaningsList", meaningsList);
                 intent.putExtra("word", word);
                 intent.putExtra("audioURL", audioURL);
                 startActivity(intent);
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private List<Meaning> fetchMeanings(String word) throws IOException, JSONException {
+    private ArrayList<Meaning> fetchMeanings(String word) throws IOException, JSONException {
         URL url = new URL("https://api.dictionaryapi.dev/api/v2/entries/en/" + word);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        List<Meaning> meaningsList = new ArrayList<>();
+        ArrayList<Meaning> meaningsList = new ArrayList<>();
 
         for (int i = 0; i < meaningsArray.length(); i++) {
             JSONObject meaningObject = meaningsArray.getJSONObject(i);
