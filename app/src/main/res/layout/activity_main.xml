@@ -26,4 +26,14 @@
         android:backgroundTint="#00B0FF"
         android:gravity="center"
         android:text="search" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="100dp"
+        android:text="MC Dictionary App \nDesigned by: Mohammed Taasir (MT22029)"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 </LinearLayout>

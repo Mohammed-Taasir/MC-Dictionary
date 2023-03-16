@@ -33,15 +33,6 @@ public class MeaningListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        // Get the list of meanings passed from the main activity
-//        meaningList = (List<Meaning>) getIntent().getSerializableExtra("meaningsList");
-
-        // Get the list of meanings passed from the main activity
-//        meaningList = getArguments().getParcelableArrayList("meaningsList");
-//        Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            ArrayList<Meaning> meaningsList = (ArrayList<Meaning>) bundle.getParcelableArrayList("meaningsList");
-//        }
         Bundle bundle = getArguments();
 
         if (bundle != null) {
@@ -50,23 +41,6 @@ public class MeaningListFragment extends ListFragment {
             // use the meanings list as needed
         }
 
-//        if (bundle != null) {
-//            meaningsList = new ArrayList<>();
-//            ArrayList<Parcelable> parcelableList = bundle.getParcelableArrayList("meaningsList");
-//            for (Parcelable p : parcelableList) {
-//                if (p instanceof Meaning) {
-//                    meaningsList.add((Meaning) p);
-//                }
-//            }
-//        }
-//        ArrayList<Meaning> meaningsList = bundle.getParcelableArrayList("meaningsList");
-//        Parcelable[] parcelables = bundle.getParcelableArrayList("meaningsList");
-//        ArrayList<Meaning> meaningList = new ArrayList<>();
-//        if (parcelables != null) {
-//            for (Parcelable parcelable : parcelables) {
-//                meaningList.add((Meaning) parcelable);
-//            }
-//        }
         // Set up the adapter for the list view
         setListAdapter(new MeaningAdapter(this, meaningsList, listener));
     }
@@ -101,16 +75,6 @@ public class MeaningListFragment extends ListFragment {
             TextView partOfSpeechTextView = convertView.findViewById(R.id.part_of_speech_text_view);
             partOfSpeechTextView.setText(meaning.getPartOfSpeech());
 
-            // Set the definition
-//            TextView definitionTextView = convertView.findViewById(R.id.definition_text_view);
-//            definitionTextView.setText((CharSequence) meaning.getDefinitions());
-//            TextView definitionTextView = convertView.findViewById(R.id.definition_text_view);
-//            List<String> definitions = meaning.getDefinitions();
-//            String definitionString = "";
-//            for (String definition : definitions) {
-//                definitionString += definition + "\n";
-//            }
-//            definitionTextView.setText(definitionString);
 
             // Set the click listener
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -129,10 +93,4 @@ public class MeaningListFragment extends ListFragment {
         void onItemClick(Meaning meaning);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_meaning_list, container, false);
-//    }
 }

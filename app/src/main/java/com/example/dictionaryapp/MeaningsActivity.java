@@ -45,13 +45,10 @@ public class MeaningsActivity extends AppCompatActivity {
         // Get the list of meanings passed from the main activity
         meaningList = getIntent().getParcelableArrayListExtra("meaningsList");
 
-//        meaningList = (List<Meaning>) getIntent().getSerializableExtra("meaningsList");
         // Set up the views
         wordTextView = findViewById(R.id.word_textview);
         audioButton = findViewById(R.id.audio_button);
-//        recyclerView = findViewById(R.id.meanings_recyclerview);
 
-//        audioButton.setBackgroundResource(R.drawable.custom_background);
 
         // Set the word in the heading
         String word = getIntent().getStringExtra("word");
@@ -64,44 +61,25 @@ public class MeaningsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Download and play the audio
-                // TODO: Implement audio playback
+                // Implement audio playback
                 // String audioUrl = meaningList.get(0).getJSONArray("phonetics").get(0).getAudioUrl(); // get the audio url from the first meaning object
                 new DownloadAudioTask().execute(audioUrl); // start downloading the audio in the background
             }
         });
 
-//        // Set up the recycler view
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new MeaningAdapter(meaningList, new MeaningAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(Meaning meaning) {
-//                // Navigate to the detail fragment for the selected meaning
-//                // TODO: Implement navigation to detail fragment
-//            }
-//        }));
-
         // Set up the fragment for the meanings list
         MeaningListFragment fragment = new MeaningListFragment();
         Bundle arguments = new Bundle();
-
-//        ArrayList<Parcelable> parcelableList = new ArrayList<>();
-//        if (meaningList != null){
-//            for (Meaning meaning : meaningList) {
-//                parcelableList.add((Parcelable) meaning);
-//            }
-//        }
         Log.i("taging", String.valueOf(meaningList));
-
 
         arguments.putParcelableArrayList("meaningsList", meaningList);
 
-//        arguments.putParcelableArrayList("meaningsList", (ArrayList<? extends Parcelable>) meaningList);
         fragment.setArguments(arguments);
         fragment.setOnItemClickListener(new MeaningListFragment.OnItemClickListener() {
             @Override
             public void onItemClick(Meaning meaning) {
-                // Navigate to the detail fragment for the selected meaning
-                // TODO: Implement navigation to detail fragment
+                // Navigate to the definition fragment for the selected meaning
+                // Implement navigation to definition fragment
                 DefinitionFragment definitionFragment = new DefinitionFragment();
                 Bundle arguments = new Bundle();
                 arguments.putParcelable("selectedMeaning", meaning);
@@ -168,65 +146,5 @@ public class MeaningsActivity extends AppCompatActivity {
         }
     }
 
-
-
-    // Adapter for the recycler view
-//    private static class MeaningAdapter extends RecyclerView.Adapter<MeaningAdapter.ViewHolder> {
-//        private List<Meaning> meaningList;
-//        private OnItemClickListener listener;
-//
-//        public MeaningAdapter(List<Meaning> meaningList, OnItemClickListener listener) {
-//            this.meaningList = meaningList;
-//            this.listener = listener;
-//        }
-//
-//        @NonNull
-//        @Override
-//        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_meaning, parent, false);
-//            return new ViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//            final Meaning meaning = meaningList.get(position);
-//
-//            // Set the part of speech
-//            holder.partOfSpeechTextView.setText(meaning.getPartOfSpeech());
-//
-//            // Set the definition
-//            holder.definitionTextView.setText(meaning.getDefinition());
-//
-//            // Set the click listener
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    listener.onItemClick(meaning);
-//                }
-//            });
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return meaningList.size();
-//        }
-//
-//        // View holder for the recycler view
-//        public static class ViewHolder extends RecyclerView.ViewHolder {
-//            private TextView partOfSpeechTextView;
-//            private TextView definitionTextView;
-//
-//            public ViewHolder(View itemView) {
-//                super(itemView);
-//                partOfSpeechTextView = itemView.findViewById(R.id.part_of_speech_text_view);
-//                definitionTextView = itemView.findViewById(R.id.definition_text_view);
-//            }
-//        }
-//
-//        // Interface for click listener
-//        public interface OnItemClickListener {
-//            void onItemClick(Meaning meaning);
-//        }
-//    }
 }
 
